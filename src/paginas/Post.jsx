@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { busca } from '../api/api';
+import React, { useState, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { busca } from '../api/api'
 import '../assets/css/post.css'
 
 export default function Post() {
-    const { id } = useParams();
-    const [post, setPost] = useState({});
+    let history = useHistory()
+    const { id } = useParams()
+    const [post, setPost] = useState({})
 
     useEffect(() => {
         busca(`/posts/${id}`, setPost)
+        .catch(() => {
+            history.push('/404')
+        })
     }, [id]);
 
     return(
